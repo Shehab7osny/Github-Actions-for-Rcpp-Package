@@ -16,8 +16,9 @@ jobs:
       - uses: r-lib/actions/setup-r@master
       - name: Install dependencies
         run: |
-          R -e 'install.packages("devtools")'
-          R -e 'devtools:::test()'
+          R 
+      #    -e 'install.packages("devtools")'
+      #    R -e 'devtools:::test()'
       #    remotes::install_deps(dependencies = TRUE)
       #- name: Check
       #  run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")

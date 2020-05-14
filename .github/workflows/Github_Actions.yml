@@ -20,7 +20,7 @@ jobs:
           R -e 'install.packages("devtools")' 
           R -e 'library("devtools")' 
           R -e 'devtools::test()'
-      #    R -e 'devtools:::test()'
-      #    remotes::install_deps(dependencies = TRUE)
-      #- name: Check
-      #  run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
+      
+      - name: Check 
+        if: failure()
+        uses: actions/upload-artifact@master

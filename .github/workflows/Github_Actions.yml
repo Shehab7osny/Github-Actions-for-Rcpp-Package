@@ -16,7 +16,7 @@ jobs:
       - uses: r-lib/actions/setup-r@master
       - name: Install dependencies
         run: |
-          install.packages(CalculatorRcpp)
-          remotes::install_deps(dependencies = TRUE)
+          R -e 'demo("AddExample", "CalculatorRcpp")'
+      #    remotes::install_deps(dependencies = TRUE)
       #- name: Check
       #  run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")

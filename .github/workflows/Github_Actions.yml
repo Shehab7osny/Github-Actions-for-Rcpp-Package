@@ -20,7 +20,3 @@ jobs:
           R -e 'install.packages("devtools")' 
           R -e 'library("devtools")' 
           R -e 'devtools::test()'
-      
-      - name: Check 
-        if: failure()
-        uses: actions/upload-artifact@master

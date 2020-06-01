@@ -16,7 +16,7 @@ jobs:
       - name: Query dependencies
         if: steps.cache-primes.outputs.cache-hit != 'true'
         run: |
-          Rscript -e "saveRDS(install.packages('remotes'), 'dependsA.Rds')"
+        #  Rscript -e "saveRDS(install.packages('remotes'), 'dependsA.Rds')"
           
       - name: Cache R packages 1
         id: cache-primes

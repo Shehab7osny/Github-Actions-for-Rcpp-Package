@@ -14,14 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@master
-        
-      - name: Cache Dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
         with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+          r-version: '3.6.1'
         
       - name: Install dependencies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
@@ -30,8 +24,16 @@ jobs:
           R -e 'install.packages("remotes")'
           R -e 'remotes::install_deps(dependencies = TRUE)'
           R -e 'remotes::install_cran("covr")'
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-          
+          R -e 'saveRDS(remotes::dev_package_deps(dependencies = TRUE), 'depends.Rds')'
+        
+      - name: Cache Dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-r-3.6.1-${{ hashFiles('depends.Rds') }}
+          restore-keys: ${{ runner.os }}-r-3.6.1-
+            
       - name: Test Package
         run: |
           R -e 'covr::codecov()'

@@ -16,14 +16,14 @@ jobs:
       - name: Query dependencies
         if: steps.cache-primes.outputs.cache-hit != 'true'
         run: |
-          Rscript -e "saveRDS(install.packages('remotes'), 'depends.Rds')"
+          Rscript -e "saveRDS(install.packages('remotes'), 'dependsA.Rds')"
           
-      - name: Cache R packages
+      - name: Cache R packages 1
         id: cache-primes
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-3.6.1-${{ hashFiles('depends.Rds') }}
+          key: ${{ runner.os }}-r-3.6.1-${{ hashFiles('dependsA.Rds') }}
           restore-keys: ${{ runner.os }}-r-3.6.1-
 
       - name: Test Package

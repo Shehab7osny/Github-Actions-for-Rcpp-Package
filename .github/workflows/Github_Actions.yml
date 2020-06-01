@@ -39,18 +39,5 @@ jobs:
           key: ${{ runner.os }}-r-3.6.1-${{ hashFiles('depends1.Rds') }}
           restore-keys: ${{ runner.os }}-r-3.6.1-
 
-      - name: Query dependencies 2
-        if: steps.cache-primes1.outputs.cache-hit != 'true'
-        run: |
-          Rscript -e "saveRDS(remotes::install_cran("covr"), 'depends2.Rds')"
-          
-      - name: Cache R packages 2
-        id: cache-primes2
-        uses: actions/cache@v1
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-3.6.1-${{ hashFiles('depends2.Rds') }}
-          restore-keys: ${{ runner.os }}-r-3.6.1-
-
       - name: Test Package
         run: R -e 'covr::codecov()'

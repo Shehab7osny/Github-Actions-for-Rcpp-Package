@@ -1,6 +1,6 @@
 on: [push, pull_request]
 
-name: Test3
+name: Test4
 
 jobs:
   R-CMD-check:

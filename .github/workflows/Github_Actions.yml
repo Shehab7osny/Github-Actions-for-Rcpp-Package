@@ -15,7 +15,8 @@ jobs:
         
       - name: Query dependencies
         run: |
-          Rscript -e "install.packages('remotes')" 
+          Rscript -e "install.packages('remotes')"
+          Rscript -e "remotes::install_deps(dependencies = TRUE)" 
           Rscript -e "remotes::install_cran("covr")"
           Rscript -e "saveRDS(remotes::dev_package_deps(dependencies = TRUE), 'depends.Rds')"
           

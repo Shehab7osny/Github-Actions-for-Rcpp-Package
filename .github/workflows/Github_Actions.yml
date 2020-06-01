@@ -14,11 +14,13 @@ jobs:
         run: sudo apt-get install libcurl4-openssl-dev
         
       - name: Query dependencies
+        if: steps.cache-primes.outputs.cache-hit != 'true'
         run: |
           Rscript -e "install.packages('remotes')"
           Rscript -e "saveRDS(remotes::install_deps(dependencies = TRUE), 'depends.Rds')"
           
       - name: Cache R packages
+        id: cache-primes
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}

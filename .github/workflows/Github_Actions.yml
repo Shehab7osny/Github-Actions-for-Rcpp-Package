@@ -17,17 +17,10 @@ jobs:
         run: |
           Rscript -e "install.packages('remotes')"
           Rscript -e "saveRDS(remotes::install_deps(dependencies = TRUE), 'depends.Rds')"
-          Rscript -e "saveRDS(remotes::dev_package_deps(dependencies = TRUE), 'depends.Rds')"
           
       - name: Cache R packages
-        if: runner.os != 'Windows'
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-r-3.6.1-${{ hashFiles('depends.Rds') }}
           restore-keys: ${{ runner.os }}-r-3.6.1-
-      
-      - name: Test Package
-        run: |
-          R -e 'remotes::install_cran("covr")'
-          R -e 'covr::codecov()'

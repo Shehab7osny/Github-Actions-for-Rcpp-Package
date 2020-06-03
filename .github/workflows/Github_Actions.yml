@@ -28,20 +28,16 @@ jobs:
       run: |
        sudo apt-get install libcurl4-openssl-dev libxml2-dev
      
-    - name: R Packages2
-      id: r-package2
-      uses: actions/cache@v2
+    - name: Query dependencies1
+      run: Rscript -e "install.packages('remotes')" -e "saveRDS(remotes::dev_package_deps(dependencies = TRUE), 'depends.Rds')"
+      
+    - name: Cache R packages1
+      uses: actions/cache@v1
       with:
-        path: ~/.local/share/renv
-        key: ${{ runner.os }}-renv2-${{ hashFiles('**/renv.lock') }}
-
-    - name: Generate Prime Numbers
-      if: steps.r-package2.outputs.cache-hit != 'true'
-      run: |
-       install.packages("remotes")
-       remotes::install_deps(dependencies = TRUE)
-       remotes::install_cran("covr")
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-r-3.6.1-${{ hashFiles('depends.Rds') }}
+        restore-keys: ${{ runner.os }}-r-3.6.1-
        
     - name: Test Package
       run: |
-       covr::codecov()
+          R -e 'covr::codecov()'

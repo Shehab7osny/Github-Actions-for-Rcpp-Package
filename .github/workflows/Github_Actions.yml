@@ -27,7 +27,7 @@ jobs:
       run: |
        sudo apt-get install libcurl4-openssl-dev libxml2-dev
        
-    - name: R functions:
+    - name: R functions
       run: |
        Rscript -e 'install.packages("remotes")'
        Rscript -e 'remotes::install_deps(dependencies = TRUE)'

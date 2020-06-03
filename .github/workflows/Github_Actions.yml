@@ -44,5 +44,5 @@ jobs:
        
     - name: Test Package
       run: |
-       .libPaths("~/.local/share/renv")
+       R -e '.libPaths("~/.local/share/renv")'
        R -e 'covr::codecov()'

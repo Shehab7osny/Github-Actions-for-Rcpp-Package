@@ -26,6 +26,7 @@ jobs:
         env:
           CACHE_HIT: ${{steps.cache-openssl.outputs.cache-hit}}
         run: |
+          echo $CACHE_HIT
           if [[ "$CACHE_HIT" == 'true' ]]; then
             sudo cp --verbose --force --recursive ~/openssl/* /
           else
@@ -48,40 +49,3 @@ jobs:
           else
             R -e 'install.packages("remotes")'
           fi
-
-      - name: Cache grpcbase
-        uses: actions/cache@v1
-        id: cache-grpcbase
-        with:
-          path: "~/grpcbase"
-          key: "grpcbase"
-          
-      - name: Install grpcbase
-        env:
-          CACHE_HIT: ${{steps.cache-grpcbase.outputs.cache-hit}}
-        run: |
-          if [[ "$CACHE_HIT" == 'true' ]]; then
-            sudo cp --verbose --force --recursive ~/grpcbase/* /
-          else
-            R -e 'remotes::install_deps(dependencies = TRUE)'
-          fi
-
-      - name: Cache submodule
-        uses: actions/cache@v1
-        id: cache-submodule
-        with:
-          path: "~/submodule"
-          key: "submodule"
-          
-      - name: Install submodule
-        env:
-          CACHE_HIT: ${{steps.cache-submodule.outputs.cache-hit}}
-        run: |
-          if [[ "$CACHE_HIT" == 'true' ]]; then
-            sudo cp --verbose --force --recursive ~/submodule/* /
-          else
-            R -e 'remotes::install_cran("covr")'
-          fi
-
-      - name: Test Package
-        run: R -e 'covr::codecov()'

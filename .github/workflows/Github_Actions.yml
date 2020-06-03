@@ -11,43 +11,21 @@ on:
 jobs:
   R-CMD-check:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: r-lib/actions/setup-r@master
+    - uses: actions/checkout@v2
 
-      - name: Cache openssl
-        uses: actions/cache@v1
-        id: cache-openssl
-        with:
-          path: "~/openssl"
-          key: "openssl"
-          
-      - name: Install openssl
-        env:
-          CACHE_HIT: ${{steps.cache-openssl.outputs.cache-hit}}
-        run: |
-          echo Start
-          echo ${{steps.cache-openssl.outputs.cache-hit}}
-          echo End
-          if [[ "$CACHE_HIT" == 'true' ]]; then
-            sudo cp --verbose --force --recursive ~/openssl/* /
-          else
-            sudo apt-get install libcurl4-openssl-dev libxml2-dev
-          fi
+    - name: Cache Primes
+      id: cache-primes
+      uses: actions/cache@v2
+      with:
+        path: prime-numbers
+        key: ${{ runner.os }}-primes
 
-      - name: Cache proto
-        uses: actions/cache@v1
-        id: cache-proto
-        with:
-          path: "~/proto"
-          key: "proto"
-          
-      - name: Install proto
-        env:
-          CACHE_HIT: ${{steps.cache-proto.outputs.cache-hit}}
-        run: |
-          if [[ "$CACHE_HIT" == 'true' ]]; then
-            sudo cp --verbose --force --recursive ~/proto/* /
-          else
-            R -e 'install.packages("remotes")'
-          fi
+    - name: Generate Prime Numbers
+      if: steps.cache-primes.outputs.cache-hit != 'true'
+      run: |
+       echo Start
+       echo steps.cache-primes.outputs.cache-hit
+       echo End
+       sudo apt-get install libcurl4-openssl-dev libxml2-dev

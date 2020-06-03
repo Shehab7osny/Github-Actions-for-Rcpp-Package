@@ -15,18 +15,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: r-lib/actions/setup-r@master
-
-    - name: Cache Prime2
-      id: cache-prime2
-      uses: actions/cache@v2
-      with:
-        path: prime-number2
-        key: ${{ runner.os }}-dependency2
-
-    - name: Generate Prime Numbers
-      if: steps.cache-prime2.outputs.cache-hit != 'true'
-      run: |
-       sudo apt-get install libcurl4-openssl-dev libxml2-dev
      
     - name: Query dependencies1
       run: Rscript -e "install.packages('remotes')" -e "saveRDS(remotes::dev_package_deps(dependencies = TRUE), 'depends.Rds')"

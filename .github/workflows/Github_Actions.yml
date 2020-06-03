@@ -26,7 +26,7 @@ jobs:
         env:
           CACHE_HIT: ${{steps.cache-openssl.outputs.cache-hit}}
         run: |
-          echo $CACHE_HIT
+          echo ${{steps.cache-openssl.outputs.cache-hit}}
           if [[ "$CACHE_HIT" == 'true' ]]; then
             sudo cp --verbose --force --recursive ~/openssl/* /
           else

@@ -33,7 +33,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/.local/share/renv
-        key: ${{ runner.os }}-renv-${{ hashFiles('**/renv1.lock') }}
+        key: ${{ runner.os }}-renv1-${{ hashFiles('**/renv.lock') }}
 
     - name: Generate Prime Numbers
       if: steps.r-package1.outputs.cache-hit != 'true'

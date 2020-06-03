@@ -32,4 +32,6 @@ jobs:
        R -e 'remotes::install_cran("covr")'
        
     - name: Test Package
-      run: R -e 'covr::codecov()'
+      run: |
+       R -e 'library("covr")'
+       R -e 'covr::codecov()'
